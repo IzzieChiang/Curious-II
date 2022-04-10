@@ -1,4 +1,4 @@
-function SAN0611(Global)
+function Curiousii(Global)
 % <algorithm> <G>
 %------------------------------- Reference --------------------------------
 %  Vargas D V, Murata J, Takano H, et al. General subpopulation framework 
