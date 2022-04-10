@@ -3,4 +3,4 @@ Curious-II: A Multi/Many-Objective Optimization Algorithm with Subpopulations ba
 
 this is a paper code for PPSN ’22.
 
-run mainformain.m firstly.
+run mainofmain.m firstly.
