@@ -1,7 +1,5 @@
 function SAN0611(Global)
 % <algorithm> <G>
-% Subpopulation Algorithm based on Novelty £¨Ë«ÖØnovelty£¬·Ç´úÀíÄ£ÐÍ£©
-% ÓÃÁËjDE
 %------------------------------- Reference --------------------------------
 %  Vargas D V, Murata J, Takano H, et al. General subpopulation framework 
 %  and taming the conflict inside populations[J]. Evolutionary computation, 
@@ -15,7 +13,7 @@ function SAN0611(Global)
 % Computational Intelligence Magazine, 2017, 12(4): 73-87".
 %--------------------------------------------------------------------------
 
-    %% Generate random population£¨initialization£©____Ã¿´Î¶¼Òª¸ÄµÄµØ·½
+    %% Generate random populationï¼ˆinitializationï¼‰
     Classical_sub = ones(1,Global.M)*3;
     Novety_sub = ones(1,2)*4;
     Smatric =[Classical_sub,Novety_sub]*Global.N;
@@ -26,7 +24,7 @@ function SAN0611(Global)
         Population{i} =  Global.Initialization(Smatric(i));
         C1 = [C1 Population{i}];
     end
-    %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª surrogate model training stage¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
+    %â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” surrogate model training stageâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”%
     Error = [];
     %L = [dataset.decs,dataset.objs];
     nc = 10;
@@ -35,8 +33,8 @@ function SAN0611(Global)
     error = sqrt(mean((C1.objs - TestNNOut).^2,1));%sum(abs(C1.objs - TestNNOut));
     Error = [Error; error];
     nnstruct = struct('W',W2,'B',B2,'Centers',Centers,'Spreads',Spreads);
-    %% Îå¸ö×ÓÖÖÈº£¬Ò»¸ö¾àÀë´´ÐÂ£¬Ò»¸ö´íÎó´´ÐÂ
-    %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªparameter¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
+
+    %â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”parameterâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”%
     Archive1 = [];Archive2 = [];Archive3 = [Archive1,Archive2];
     novelty_threshold = 0.1; 
     rc_nt = []; % record novelty threshold
@@ -45,32 +43,31 @@ function SAN0611(Global)
     Archive = {Archive1,Archive2,Archive3}; 
     clear Archive1 Archive2 Archive3
     while Global.NotTermination(Archive{3})
-        %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªthe classical subpopulation¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
+        %â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”the classical subpopulationâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”%
         for inii = 1:subnum-2
             if Global.evaluated <= sum(Smatric)*2
                 para = {0.6,0.1};
                 [Archive,novelty_threshold,Population] = SDEE0611(Population,...
-                inii,Global.D,Archive,novelty_threshold,nnstruct,para); %  1,2Ä¿±ê             
+                inii,Global.D,Archive,novelty_threshold,nnstruct,para);           
             else
                 [Archive,novelty_threshold,Population] = SDEE0611(Population,...
-                    inii,Global.D,Archive,novelty_threshold,nnstruct); %  1,2Ä¿±ê 
+                    inii,Global.D,Archive,novelty_threshold,nnstruct); 
             end
         end
 
-        %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª the MONA subpopulation ¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
+        %â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” the MONA subpopulation â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”%
         if Global.evaluated <= sum(Smatric)*2
             para = {0.6,0.1};
             [Archive,novelty_threshold,Population] = SMONA0118(Population,Global.D,Archive,novelty_threshold,nnstruct,para); 
-            [Archive,novelty_threshold,Population] = SMONE0118(Population,Global.D,Archive,novelty_threshold,nnstruct,para); %ÕâÀïÊÇ¸Ä¹ýµÄpopulation{i}                        
+            [Archive,novelty_threshold,Population] = SMONE0118(Population,Global.D,Archive,novelty_threshold,nnstruct,para); %è¿™é‡Œæ˜¯æ”¹è¿‡çš„population{i}                        
         else
             [Archive,novelty_threshold,Population] = SMONA0118(Population,Global.D,Archive,novelty_threshold,nnstruct); 
-            [Archive,novelty_threshold,Population] = SMONE0118(Population,Global.D,Archive,novelty_threshold,nnstruct); %ÕâÀïÊÇ¸Ä¹ýµÄpopulation{i}                        
+            [Archive,novelty_threshold,Population] = SMONE0118(Population,Global.D,Archive,novelty_threshold,nnstruct); %è¿™é‡Œæ˜¯æ”¹è¿‡çš„population{i}                        
         end
         rc_nt = [rc_nt,novelty_threshold];
         rc_num = [rc_num;numel(Archive{1}), numel(Archive{2})];
     
-       %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªthe surrogate model¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
-       %¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%¸Ä³ÉÓÃArchiveÑµÁ·¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª%
+       %â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”the surrogate modelâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”%
        %{
        if numel(Archive{3})< 100
             archive = [Archive{3},Population{1},Population{2}];
